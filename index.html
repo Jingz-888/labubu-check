@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labubu Check</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Light Violet -->
+    <!-- Application Structure Plan: A single-page application with a top-level tabbed navigation to switch between four main, user-task-oriented sections: 1) A 'Home' page with a trend chart to establish context. 2) A detailed 'Authentication Guide' with interactive sub-sections for visual, detail, and packaging comparisons, now enhanced with real-world images. 3) An 'Advanced Tips' section featuring an interactive diagram for the QR code scam and a dynamic filter for UV light tests across different series. 4) A 'Where to Buy' guide with actionable checklists. This structure prioritizes user discovery and quick access to specific information over a linear report layout, making the content more engaging and digestible. -->
+    <!-- Visualization & Content Choices: 1. Trend Chart (Info: Search interest for 'labubu authentication', Goal: Inform, Viz: Line Chart, Interaction: Hover tooltips, Justification: Best for time-series data, Library: Chart.js). 2. Real vs. Fake Comparison (Info: Feature differences, Goal: Compare, Viz: Two-column grid with text and images, Interaction: Visual comparison, Justification: Images provide undeniable proof, Method: HTML/Tailwind). 3. Scam Flowchart (Info: 'Real box, fake doll' process, Goal: Organize/Explain, Viz: HTML/CSS diagram, Interaction: Click-to-highlight steps, Justification: Simplifies complex process, Method: HTML/Tailwind). 4. UV Test Guide (Info: Series-specific UV reactions, Goal: Inform/Filter, Viz: Dynamic content block updated by filter buttons, Interaction: Clicking buttons to show relevant info, Justification: Delivers targeted information on demand, Method: Vanilla JS). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EDE9FE;
+            color: #374151;
+        }
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            color: #4C1D95;
+        }
+        .nav-button.active {
+            background-color: #8B5CF6;
+            color: #FFFFFF;
+            font-weight: 700;
+            box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+        }
+        .nav-button:not(.active):hover {
+            background-color: #DDD6FE;
+        }
+        .sub-nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #F5F3FF;
+            border: 1px solid #D1D5DB;
+            color: #4338CA;
+        }
+        .sub-nav-button.active {
+            background-color: #6D28D9;
+            color: #FFFFFF;
+            border-color: #6D28D9;
+        }
+        .sub-nav-button:not(.active):hover {
+            background-color: #E0E7FF;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .flowchart-step {
+            transition: all 0.3s ease;
+        }
+        .flowchart-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        .comparison-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border: 1px solid #E5E7EB;
+        }
+        .auth-content-section, .advanced-content-section, .buying-content-section {
+            display: none;
+        }
+        .auth-content-section.active, .advanced-content-section.active, .buying-content-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="min-h-screen">
+        <header class="py-6 bg-white shadow-md sticky top-0 z-10 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <span class="text-4xl font-bold text-violet-600">L</span>
+                    <h1 class="text-3xl font-bold ml-2 text-gray-800">Labubu Check</h1>
+                </div>
+                <nav id="main-nav" class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
+                    <button class="nav-button active" data-target="home">Home</button>
+                    <button class="nav-button" data-target="authentication">Authentication</button>
+                    <button class="nav-button" data-target="advanced">Advanced Tips</button>
+                    <button class="nav-button" data-target="buying">Where to Buy</button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="py-10">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <section id="home" class="content-section active">
+                    <div class="text-center">
+                        <h2 class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">Authenticity in Your Hands.</h2>
+                        <p class="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
+                            Labubu, the mischievous, toothy monster created by artist Kasing Lung, has become a global pop culture icon. As its popularity grows, so does the challenge of finding authentic items. This guide is your essential resource for verifying your collection and purchasing with confidence.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="authentication" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-extrabold text-gray-800">The Ultimate Authentication Guide</h2>
+                        <p class="mt-2 text-lg text-gray-600">Master authentication techniques, from the big picture to the finest details.</p>
+                    </div>
+                    <div id="auth-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
+                        <button class="sub-nav-button active" data-target="appearance">Appearance & Feel</button>
+                        <button class="sub-nav-button" data-target="details">Key Details</button>
+                        <button class="sub-nav-button" data-target="packaging">Packaging & Accessories</button>
+                    </div>
+
+                    <div id="auth-content">
+                        <div id="appearance" class="auth-content-section active">
+                           <div class="comparison-grid">
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Plush Texture</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Feels like a high-end plush toy—soft, smooth, and dense, with a rich color.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Feels cheap and coarse, with a faded color and sparse, uneven fur.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Facial Details</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Natural blush gradient, glossy and well-set eyes with distinct white highlights.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Harsh blush, dull eyes that lack a clear highlight, or incorrect eye shape.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+
+                        <div id="details" class="auth-content-section">
+                            <div class="comparison-grid">
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Foot Logo</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> "Pop Mart" on the left foot, "Kasing Lung" on the right. The font is clear and smooth.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> The print is often blurry, rough, or may even have spelling errors.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Wash Tag</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Stitched flat, feels smooth, with clear, dark black text.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Can feel more like plastic, with a raised texture and faded gray text.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="packaging" class="auth-content-section">
+                            <div class="comparison-grid">
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Box Quality & Color</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Matte finish box with vibrant, accurate colors and sharp printing.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Often glossy, with washed-out or incorrect colors and blurry text.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Security Label</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Features a holographic label on the outside of the box with a clear, flashing double 'P' logo.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Usually lacks this label, or the logo is unclear.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Inner Bag</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> Has a clear sealing edge, air holes, and a mirrored logo inside.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> Lacks these features.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-card">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Desiccant Packet</h3>
+                                        <div class="space-y-3 text-gray-600">
+                                            <p><span class="font-bold text-green-600">Authentic:</span> The desiccant packet is printed with a clear POP MART logo.</p>
+                                            <p><span class="font-bold text-red-600">Fake:</span> The desiccant packet has no branding.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="advanced" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-extrabold text-gray-800">Advanced "Scam-Proof" Tips</h2>
+                        <p class="mt-2 text-lg text-gray-600">Understand sophisticated scams and professional-grade verification tools.</p>
+                    </div>
+                    <div id="advanced-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
+                        <button class="sub-nav-button active" data-target="qrcode">QR Code Traps</button>
+                        <button class="sub-nav-button" data-target="uvlight">UV Light Test</button>
+                    </div>
+
+                    <div id="advanced-content">
+                        <div id="qrcode" class="advanced-content-section active bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">The "Authentic Box, Fake Doll" Scam</h3>
+                            <p class="text-center text-gray-500 mb-8">A successful QR code scan does NOT guarantee the doll is authentic! This is one of the most advanced scams.</p>
+                            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                                <div class="flowchart-step text-center p-4 bg-gray-100 rounded-lg w-full md:w-1/4">
+                                    <div class="text-4xl mb-2">①</div>
+                                    <h4 class="font-bold">Authentic Box</h4>
+                                    <p class="text-sm text-gray-500">Scammers use a real box with a valid QR code.</p>
+                                </div>
+                                <div class="text-4xl text-gray-400 font-light hidden md:block">→</div>
+                                 <div class="text-4xl text-gray-400 font-light block md:hidden">↓</div>
+                                <div class="flowchart-step text-center p-4 bg-gray-100 rounded-lg w-full md:w-1/4">
+                                    <div class="text-4xl mb-2">②</div>
+                                    <h4 class="font-bold">Fake Doll Inside</h4>
+                                    <p class="text-sm text-gray-500">A cheap counterfeit is placed inside the real box.</p>
+                                </div>
+                                <div class="text-4xl text-gray-400 font-light hidden md:block">→</div>
+                                 <div class="text-4xl text-gray-400 font-light block md:hidden">↓</div>
+                                <div class="flowchart-step text-center p-4 bg-red-100 border-2 border-red-300 rounded-lg w-full md:w-1/4">
+                                    <div class="text-4xl mb-2">③</div>
+                                    <h4 class="font-bold">User Deceived</h4>
+                                    <p class="text-sm text-gray-500">The user scans the code, it passes, but the doll is a fake.</p>
+                                </div>
+                            </div>
+                            <div class="mt-8 text-center bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                                <p class="font-bold text-gray-800">Key Takeaway:</p>
+                                <p class="text-blue-700">You MUST physically inspect the <span class="font-bold text-blue-800">doll itself</span>. The official verification URL is `fwsy.popmart.com`. A "First-time query" result is a better sign.</p>
+                            </div>
+                        </div>
+
+                        <div id="uvlight" class="advanced-content-section bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                             <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">The UV Light (Blacklight) Trick</h3>
+                             <p class="text-center text-gray-500 mb-6">A simple and effective advanced technique, but be aware that reactions vary by series.</p>
+                             <div class="flex justify-center flex-wrap gap-2 mb-6" id="uv-filter-buttons">
+                                 <button class="sub-nav-button active" data-series="have-a-seat">Have A Seat (V2)</button>
+                                 <button class="sub-nav-button" data-series="macaron">Exciting Macaron (V1)</button>
+                                 <button class="sub-nav-button" data-series="general">General Tips</button>
+                             </div>
+                             <div id="uv-info-content" class="p-6 bg-violet-50 rounded-lg min-h-[150px]">
+                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="buying" class="content-section">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-extrabold text-gray-800">Where to Buy Safely?</h2>
+                        <p class="mt-2 text-lg text-gray-600">Choosing a reliable channel is the first line of defense against fakes.</p>
+                    </div>
+                    <div id="buying-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
+                        <button class="sub-nav-button active" data-target="official">Official & Authorized</button>
+                        <button class="sub-nav-button" data-target="secondary">Secondary Market</button>
+                    </div>
+
+                    <div id="buying-content">
+                        <div id="official" class="buying-content-section active bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold mb-4 text-gray-800">Official Channels: The Safest Bet</h3>
+                            <ul class="list-disc list-inside space-y-3 text-gray-700">
+                                <li><b>Official Websites:</b> Pop Mart's global and regional websites (popmart.com).</li>
+                                <li><b>Official E-commerce Stores:</b> The "POP MART Official Store" on Amazon, TikTok Shop, and AliExpress.</li>
+                                <li><b>Physical Stores:</b> Flagship stores, regular stores, and "Roboshop" vending machines worldwide.</li>
+                            </ul>
+                        </div>
+                        <div id="secondary" class="buying-content-section bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                            <h3 class="text-2xl font-bold mb-4 text-gray-800">Secondary Market Safety Checklist</h3>
+                             <ul class="space-y-4 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-green-600 mr-3 mt-1">✔</span>
+                                    <div><b class="text-gray-800">Check Seller Ratings:</b> Prioritize sellers with high scores and many positive reviews. Read comments with photos.</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-600 mr-3 mt-1">✔</span>
+                                    <div><b class="text-gray-800">Use Protected Payments:</b> Strongly recommend using payment methods with buyer protection (like PayPal Goods & Services).</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-600 mr-3 mt-1">✔</span>
+                                    <div><b class="text-gray-800">Ask for Extra Proof:</b> Ask the seller for a photo of the item with a piece of paper showing your username.</div>
+                                </li>
+                                 <li class="flex items-start">
+                                    <span class="text-red-600 mr-3 mt-1">✖</span>
+                                    <div><b class="text-gray-800">Beware of Low Prices:</b> If the price is significantly below market value, it is very likely a fake.</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-3 mt-1">✖</span>
+                                    <div><b class="text-gray-800">Beware of "1:1" Descriptions:</b> On AliExpress, this usually means it is a replica.</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        
+        <footer class="text-center py-6 mt-10 border-t border-violet-200">
+            <p class="text-gray-500">Labubu Check &copy; 2025. For reference and educational purposes only.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main Navigation
+            const mainNavButtons = document.querySelectorAll('#main-nav .nav-button');
+            const mainContentSections = document.querySelectorAll('.content-section');
+
+            mainNavButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    mainNavButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const targetId = button.getAttribute('data-target');
+                    mainContentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Generic Sub-navigation handler
+            function setupSubNav(navContainerId, contentContainerId, contentClass) {
+                const navButtons = document.querySelectorAll(`#${navContainerId} .sub-nav-button`);
+                const contentSections = document.querySelectorAll(`#${contentContainerId} .${contentClass}`);
+                
+                if (navButtons.length === 0) return;
+
+                navButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        navButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        const targetId = button.getAttribute('data-target');
+                        contentSections.forEach(section => {
+                            if (section.id === targetId) {
+                                section.classList.add('active');
+                            } else {
+                                section.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+                 navButtons[0].click();
+            }
+
+            setupSubNav('auth-nav-container', 'auth-content', 'auth-content-section');
+            setupSubNav('advanced-nav-container', 'advanced-content', 'advanced-content-section');
+            setupSubNav('buying-nav-container', 'buying-content', 'buying-content-section');
+
+            // UV Light Test interactive content
+            const uvFilterButtons = document.querySelectorAll('#uv-filter-buttons .sub-nav-button');
+            const uvInfoContent = document.getElementById('uv-info-content');
+            const uvInfoData = {
+                'have-a-seat': {
+                    title: 'Have A Seat (V2) Series',
+                    content: 'This series has the clearest UV security feature. Under a blacklight, the <b class="text-blue-600">bottom of the right foot</b> of an authentic doll will show a clear silhouette matching the character\'s pose, glowing <b class="text-blue-600">fluorescent blue</b>. The eyes, mouth, and nose may also react.'
+                },
+                'macaron': {
+                    title: 'Exciting Macaron (V1) Series',
+                    content: 'Authentic dolls from this series <b class="text-red-600">do not have</b> a UV mark on the foot. However, some collectors note that the <b class="text-blue-600">teeth</b> will show a clear fluorescent reaction under a blacklight.'
+                },
+                'general': {
+                    title: 'General Tips',
+                    content: 'For many of the plush keychain series, a common trick is to shine the UV light on the <b class="text-blue-600">nose</b>, as the paint used on authentic dolls often glows. Note that UV features on series like "Big Into Energy" (V3) are inconsistent and should not be the only basis for authentication.'
+                }
+            };
+            
+            function updateUvContent(series) {
+                 const data = uvInfoData[series];
+                 if (data) {
+                    uvInfoContent.innerHTML = `<h4 class="font-bold text-lg mb-2 text-gray-800">${data.title}</h4><p class="text-gray-700">${data.content}</p>`;
+                 }
+            }
+            
+            if (uvFilterButtons.length > 0) {
+                uvFilterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        uvFilterButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        const series = button.getAttribute('data-series');
+                        updateUvContent(series);
+                    });
+                });
+                updateUvContent(uvFilterButtons[0].getAttribute('data-series'));
+            }
+        });
+    </script>
+
+</body>
+</html>
