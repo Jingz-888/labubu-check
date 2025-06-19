@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-445DLQKHVQ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -13,429 +13,444 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labubu Check</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Light Violet -->
-    <!-- Application Structure Plan: A single-page application with a top-level tabbed navigation to switch between four main, user-task-oriented sections: 1) A 'Home' page with a trend chart to establish context. 2) A detailed 'Authentication Guide' with interactive sub-sections for visual, detail, and packaging comparisons, now enhanced with real-world images. 3) An 'Advanced Tips' section featuring an interactive diagram for the QR code scam and a dynamic filter for UV light tests across different series. 4) A 'Where to Buy' guide with actionable checklists. This structure prioritizes user discovery and quick access to specific information over a linear report layout, making the content more engaging and digestible. -->
-    <!-- Visualization & Content Choices: 1. Trend Chart (Info: Search interest for 'labubu authentication', Goal: Inform, Viz: Line Chart, Interaction: Hover tooltips, Justification: Best for time-series data, Library: Chart.js). 2. Real vs. Fake Comparison (Info: Feature differences, Goal: Compare, Viz: Two-column grid with text and images, Interaction: Visual comparison, Justification: Images provide undeniable proof, Method: HTML/Tailwind). 3. Scam Flowchart (Info: 'Real box, fake doll' process, Goal: Organize/Explain, Viz: HTML/CSS diagram, Interaction: Click-to-highlight steps, Justification: Simplifies complex process, Method: HTML/Tailwind). 4. UV Test Guide (Info: Series-specific UV reactions, Goal: Inform/Filter, Viz: Dynamic content block updated by filter buttons, Interaction: Clicking buttons to show relevant info, Justification: Delivers targeted information on demand, Method: Vanilla JS). -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        </head>
+    </head>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #EDE9FE;
-            color: #374151;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .nav-button {
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
-            color: #4C1D95;
+        /* Custom scrollbar for a darker theme */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .nav-button.active {
-            background-color: #8B5CF6;
-            color: #FFFFFF;
-            font-weight: 700;
-            box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+        ::-webkit-scrollbar-track {
+            background: #2d3748; /* Darker track */
         }
-        .nav-button:not(.active):hover {
-            background-color: #DDD6FE;
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568; /* Darker thumb */
+            border-radius: 4px;
         }
-        .sub-nav-button {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: #F5F3FF;
-            border: 1px solid #D1D5DB;
-            color: #4338CA;
-        }
-        .sub-nav-button.active {
-            background-color: #6D28D9;
-            color: #FFFFFF;
-            border-color: #6D28D9;
-        }
-        .sub-nav-button:not(.active):hover {
-            background-color: #E0E7FF;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
-        .flowchart-step {
-            transition: all 0.3s ease;
-        }
-        .flowchart-step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        @media (min-width: 768px) {
-            .comparison-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-        .comparison-card {
-            background-color: #FFFFFF;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            border: 1px solid #E5E7EB;
-        }
-        .auth-content-section, .advanced-content-section, .buying-content-section {
-            display: none;
-        }
-        .auth-content-section.active, .advanced-content-section.active, .buying-content-section.active {
-            display: block;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a677e; /* Even darker on hover */
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
 
-    <div class="min-h-screen">
-        <header class="py-6 bg-white shadow-md sticky top-0 z-10 border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 sm:mb-0">
-                    <span class="text-4xl font-bold text-violet-600">L</span>
-                    <h1 class="text-3xl font-bold ml-2 text-gray-800">Labubu Check</h1>
+    <!-- Header and Navigation -->
+    <header class="bg-gray-800 shadow-lg py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center fixed w-full z-10 top-0 rounded-b-lg">
+        <div class="flex items-center mb-4 md:mb-0">
+            <h1 class="text-3xl font-bold text-teal-400 mr-8">Labubu Check</h1>
+        </div>
+        <nav class="flex flex-wrap justify-center md:justify-end gap-3 md:gap-6">
+            <a href="#" class="nav-link text-gray-300 hover:text-teal-400 font-medium px-4 py-2 rounded-lg transition-colors duration-200" data-target="labubu-authentication">Labubu Authentication</a>
+            <a href="#" class="nav-link text-gray-300 hover:text-teal-400 font-medium px-4 py-2 rounded-lg transition-colors duration-200" data-target="labubu-series">Labubu Series</a>
+            <a href="#" class="nav-link text-gray-300 hover:text-teal-400 font-medium px-4 py-2 rounded-lg transition-colors duration-200" data-target="where-to-buy">Where to buy</a>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow pt-24 pb-8 px-4 md:px-12 lg:px-24">
+        <!-- Labubu Authentication Section (Default view) -->
+        <section id="labubu-authentication" class="content-section active bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">The Ultimate Guide to Authenticating LABUBU Collectibles</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 text-center max-w-3xl mx-auto">Are you a fan of LABUBU, the mischievous, toothy monster created by artist Kasing Lung? As its popularity soars, so does the prevalence of counterfeits. This guide is your essential resource for verifying your collection and ensuring your next purchase is authentic. Don't get scammed – learn how to <span class="text-teal-400 font-semibold">check Labubu</span> and differentiate real from fake.</p>
+
+            <div class="space-y-12">
+                <!-- Key Authentication Principles -->
+                <div>
+                    <h3 class="text-3xl font-bold text-teal-400 mb-4">Key Authentication Principles:</h3>
+                    <p class="text-gray-300 text-lg mb-6">Authenticating your LABUBU involves a meticulous check of several crucial aspects. Pay close attention to the details below:</p>
                 </div>
-                <nav id="main-nav" class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
-                    <button class="nav-button active" data-target="home">Home</button>
-                    <button class="nav-button" data-target="authentication">Authentication</button>
-                    <button class="nav-button" data-target="advanced">Advanced Tips</button>
-                    <button class="nav-button" data-target="buying">Where to Buy</button>
-                </nav>
+
+                <!-- 1. Appearance & Feel -->
+                <div>
+                    <h4 class="text-2xl font-bold text-white mb-4">1. Appearance & Feel <span class="text-gray-400">(Plush Texture & Facial Details)</span></h4>
+                    <p class="text-gray-300 mb-4">The initial touch and visual inspection can reveal a lot about a LABUBU's authenticity.</p>
+
+                    <!-- Plush Texture -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Plush Texture:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Feels like a high-end plush toy—soft, smooth, and dense, with a rich, vibrant color.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Feels cheap and coarse, with a faded color and sparse, uneven fur.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Plush+Texture" alt="Authentic Plush Texture Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Plush+Texture" alt="Fake Plush Texture Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Side-by-side comparison of authentic vs. fake plush texture.</p>
+                    </div>
+
+                    <!-- Facial Details -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Facial Details:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Features a natural blush gradient, glossy and well-set eyes with distinct white highlights. The iconic "toothy grin" should be well-defined and consistently painted.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Often exhibits harsh, dull colors, eyes that lack a clear highlight, or incorrect eye shape. The grin might be poorly rendered or misaligned.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Facial+Details" alt="Authentic Facial Details Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Facial+Details" alt="Fake Facial Details Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Differences in eye gloss, blush, and grin precision.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Key Details -->
+                <div>
+                    <h4 class="text-2xl font-bold text-white mb-4">2. Key Details <span class="text-gray-400">(Foot Logo & Wash Tag)</span></h4>
+                    <p class="text-gray-300 mb-4">Small markings can often betray a counterfeit. Don't overlook these subtle yet critical indicators.</p>
+
+                    <!-- Foot Logo -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Foot Logo:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Typically features "Pop Mart" on the left foot and "Kasing Lung" on the right. The print is clear, smooth, and precise, without smudges.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> The print is often blurry, rough, or may even have spelling errors or incorrect brand/artist names.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Foot+Logo" alt="Authentic Foot Logo Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Foot+Logo" alt="Fake Foot Logo Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Close-up comparison of foot logos: clarity vs. blurriness/errors.</p>
+                    </div>
+
+                    <!-- Wash Tag -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Wash Tag:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Stitched flat, feels smooth, with clear, dark black text. Information such as material composition and care instructions should be accurate and legible.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Can feel more like cheap plastic, with a raised texture and faded gray text. Information might be incomplete, incorrect, or contain grammatical errors.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Wash+Tag" alt="Authentic Wash Tag Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Wash+Tag" alt="Fake Wash Tag Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Comparison of text quality and material feel of wash tags.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Packaging & Accessories -->
+                <div>
+                    <h4 class="text-2xl font-bold text-white mb-4">3. Packaging & Accessories <span class="text-gray-400">(Box Quality, Security Label, Inner Bag, Desiccant Packet)</span></h4>
+                    <p class="text-gray-300 mb-4">The packaging itself is a significant indicator of authenticity, as counterfeiters often cut corners here.</p>
+
+                    <!-- Box Quality & Color -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Box Quality & Color:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Features a matte finish box with vibrant, accurate colors and sharp printing of designs and text. The box material feels sturdy and premium.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Often glossy, with washed-out or incorrect colors and blurry text. The box material might feel flimsy.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Box+Quality" alt="Authentic Box Quality Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Box+Quality" alt="Fake Box Quality Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Side-by-side box comparisons: color vibrancy, print sharpness, material quality.</p>
+                    </div>
+
+                    <!-- Security Label -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Security Label:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Features a holographic label on the outside of the box with a clear, flashing 'P' logo (for Pop Mart) or other specific security features. This label should be well-adhered and intact.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Usually lacks this label, or the logo is unclear, poorly printed, or easily peels off.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Security+Label" alt="Authentic Security Label Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Security+Label" alt="Fake Security Label Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Authentic holographic security label vs. missing/poorly made fake one.</p>
+                    </div>
+
+                    <!-- Inner Bag -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Inner Bag:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> Has a clear sealing edge, air holes for breathability, and a mirrored logo inside (if applicable to the series). The material feels durable.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> Lacks these features, the sealing edge might be rough, or the material feels thin and brittle.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Inner+Bag" alt="Authentic Inner Bag Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Inner+Bag" alt="Fake Inner Bag Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Comparison of inner bags: sealing, air holes, and logo presence.</p>
+                    </div>
+
+                    <!-- Desiccant Packet -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-teal-300 mb-3">Desiccant Packet:</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                            <li><span class="font-medium text-teal-200">Authentic:</span> The desiccant packet is printed with a clear POP MART logo or other official branding. It should appear professionally manufactured.</li>
+                            <li><span class="font-medium text-red-300">Fake:</span> The desiccant packet has no branding, generic printing, or appears cheaply made.</li>
+                        </ul>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-6 bg-gray-700 p-4 rounded-lg shadow-inner">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Authentic+Desiccant" alt="Authentic Desiccant Packet Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                            <img src="https://placehold.co/400x250/334155/E0F2F7?text=Fake+Desiccant" alt="Fake Desiccant Packet Placeholder" class="rounded-lg shadow-md w-full md:w-1/2 lg:w-2/5 object-cover">
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2 text-center">Comparison of desiccant packets: branding and quality.</p>
+                    </div>
+                </div>
+
+                <!-- Advanced "Scam-Proof" Tips -->
+                <div>
+                    <h3 class="text-3xl font-bold text-teal-400 mb-4">Advanced "Scam-Proof" Tips:</h3>
+                    <p class="text-gray-300 mb-6">Be aware of sophisticated scams that try to trick even experienced collectors.</p>
+
+                    <!-- The "Authentic Box, Fake Doll" Scam -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-white mb-3">The "Authentic Box, Fake Doll" Scam:</h5>
+                        <p class="text-gray-300 mb-4">A successful QR code scan <span class="font-bold text-red-400">does NOT guarantee</span> the doll is authentic! Scammers use a real box with a valid QR code, but a cheap counterfeit is placed inside the real box. The user scans the code, it passes, but the doll is a fake.</p>
+                        <p class="text-lg font-semibold text-teal-300 mb-2">Key Takeaway:</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300">
+                            <li>You <span class="font-bold">MUST</span> physically inspect the doll itself.</li>
+                            <li>The official verification URL is usually <a href="https://twzy.popmart.com" target="_blank" class="text-teal-400 hover:underline">twzy.popmart.com</a> or similar.</li>
+                            <li>A "first-time query" result after scanning the QR code is a better sign.</li>
+                        </ul>
+                    </div>
+
+                    <!-- The UV Light (Blacklight) Trick -->
+                    <div class="mb-8">
+                        <h5 class="text-xl font-semibold text-white mb-3">The UV Light (Blacklight) Trick:</h5>
+                        <p class="text-gray-300 mb-4">This is a simple and effective advanced technique, but be aware that reactions vary by series.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-300">
+                            <li><span class="font-medium text-teal-200">Have A Seat (V2) Series:</span> This series has the clearest UV security feature. Under a blacklight, the bottom of the right foot of an <span class="font-semibold">authentic</span> doll will show a clear silhouette matching the character's pose, glowing fluorescent blue. The eyes, mouth, and nose may also react.</li>
+                            <li><span class="font-medium text-teal-200">Exciting Macaron (V1) Series:</span> <span class="font-semibold">Authentic</span> dolls from this series <span class="italic">do not</span> have a UV mark on the foot. However, some collectors note that the teeth will show a clear fluorescent reaction under a blacklight.</li>
+                            <li><span class="font-medium text-teal-200">General Tips:</span> For many of the plush keychain series, a common trick is to shine the UV light on the nose, as the paint used on authentic dolls often glows. Note that UV features on series like "Big Into Energy" (V3) are inconsistent and should not be the only basis for <span class="font-semibold">authentication</span>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Final Thoughts -->
+                <div>
+                    <h3 class="text-3xl font-bold text-teal-400 mb-4">Final Thoughts:</h3>
+                    <p class="text-lg text-gray-300">By diligently following these authentication guidelines, you can confidently <span class="text-teal-400 font-semibold">check Labubu</span> items and safeguard your valuable collection. Always source your LABUBU from reputable sellers and when in doubt, cross-reference with official guides and trusted communities. Your peace of mind, and the authenticity of your collection, is paramount.</p>
+                </div>
             </div>
-        </header>
+        </section>
 
-        <main class="py-10">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Labubu Series Section (Initially hidden) -->
+        <section id="labubu-series" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Explore Labubu Series</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 text-center max-w-3xl mx-auto">Discover the diverse and enchanting world of Labubu collectibles. Each series brings unique themes and characters, making every piece a treasure!</p>
 
-                <section id="home" class="content-section active">
-                    <div class="text-center">
-                        <h2 class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">Authenticity in Your Hands.</h2>
-                        <p class="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
-                            Labubu, the mischievous, toothy monster created by artist Kasing Lung, has become a global pop culture icon. As its popularity grows, so does the challenge of finding authentic items. This guide is your essential resource for verifying your collection and purchasing with confidence.
-                        </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Example Series Card 1 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+The+Monsters" alt="Labubu The Monsters Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">The Monsters Series</h3>
+                        <p class="text-gray-300 text-base mb-4">The classic series that introduced Labubu and friends to the world. Features a variety of playful monster designs.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-monsters">View Details</a>
                     </div>
-                </section>
+                </div>
 
-                <section id="authentication" class="content-section">
-                    <div class="text-center mb-8">
-                        <h2 class="text-4xl font-extrabold text-gray-800">The Ultimate Authentication Guide</h2>
-                        <p class="mt-2 text-lg text-gray-600">Master authentication techniques, from the big picture to the finest details.</p>
+                <!-- Example Series Card 2 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+Sports" alt="Labubu Sports Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">Sports Series</h3>
+                        <p class="text-gray-300 text-base mb-4">Labubu takes on various athletic personas, from basketball players to swimmers, showcasing a dynamic side.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-sports">View Details</a>
                     </div>
-                    <div id="auth-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
-                        <button class="sub-nav-button active" data-target="appearance">Appearance & Feel</button>
-                        <button class="sub-nav-button" data-target="details">Key Details</button>
-                        <button class="sub-nav-button" data-target="packaging">Packaging & Accessories</button>
-                    </div>
+                </div>
 
-                    <div id="auth-content">
-                        <div id="appearance" class="auth-content-section active">
-                           <div class="comparison-grid">
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Plush Texture</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Feels like a high-end plush toy—soft, smooth, and dense, with a rich color.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Feels cheap and coarse, with a faded color and sparse, uneven fur.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Facial Details</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Natural blush gradient, glossy and well-set eyes with distinct white highlights.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Harsh blush, dull eyes that lack a clear highlight, or incorrect eye shape.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                           </div>
-                        </div>
-
-                        <div id="details" class="auth-content-section">
-                            <div class="comparison-grid">
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Foot Logo</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> "Pop Mart" on the left foot, "Kasing Lung" on the right. The font is clear and smooth.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> The print is often blurry, rough, or may even have spelling errors.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Wash Tag</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Stitched flat, feels smooth, with clear, dark black text.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Can feel more like plastic, with a raised texture and faded gray text.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="packaging" class="auth-content-section">
-                            <div class="comparison-grid">
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Box Quality & Color</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Matte finish box with vibrant, accurate colors and sharp printing.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Often glossy, with washed-out or incorrect colors and blurry text.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Security Label</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Features a holographic label on the outside of the box with a clear, flashing double 'P' logo.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Usually lacks this label, or the logo is unclear.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Inner Bag</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> Has a clear sealing edge, air holes, and a mirrored logo inside.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> Lacks these features.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comparison-card">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-3 text-gray-800">Desiccant Packet</h3>
-                                        <div class="space-y-3 text-gray-600">
-                                            <p><span class="font-bold text-green-600">Authentic:</span> The desiccant packet is printed with a clear POP MART logo.</p>
-                                            <p><span class="font-bold text-red-600">Fake:</span> The desiccant packet has no branding.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Example Series Card 3 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+Zimomo" alt="Labubu Zimomo Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">Zimomo Crossover</h3>
+                        <p class="text-gray-300 text-base mb-4">A special collaboration featuring Labubu in the distinct style of Kasing Lung's other popular character, Zimomo.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-zimomo">View Details</a>
                     </div>
-                </section>
+                </div>
 
-                <section id="advanced" class="content-section">
-                    <div class="text-center mb-8">
-                        <h2 class="text-4xl font-extrabold text-gray-800">Advanced "Scam-Proof" Tips</h2>
-                        <p class="mt-2 text-lg text-gray-600">Understand sophisticated scams and professional-grade verification tools.</p>
+                <!-- Example Series Card 4 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+Farmer" alt="Labubu The Farmer Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">The Farmer Series</h3>
+                        <p class="text-gray-300 text-base mb-4">Embrace the rustic charm with Labubu dressed as various farm animals and workers.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-farmer">View Details</a>
                     </div>
-                    <div id="advanced-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
-                        <button class="sub-nav-button active" data-target="qrcode">QR Code Traps</button>
-                        <button class="sub-nav-button" data-target="uvlight">UV Light Test</button>
-                    </div>
+                </div>
 
-                    <div id="advanced-content">
-                        <div id="qrcode" class="advanced-content-section active bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">The "Authentic Box, Fake Doll" Scam</h3>
-                            <p class="text-center text-gray-500 mb-8">A successful QR code scan does NOT guarantee the doll is authentic! This is one of the most advanced scams.</p>
-                            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                                <div class="flowchart-step text-center p-4 bg-gray-100 rounded-lg w-full md:w-1/4">
-                                    <div class="text-4xl mb-2">①</div>
-                                    <h4 class="font-bold">Authentic Box</h4>
-                                    <p class="text-sm text-gray-500">Scammers use a real box with a valid QR code.</p>
-                                </div>
-                                <div class="text-4xl text-gray-400 font-light hidden md:block">→</div>
-                                 <div class="text-4xl text-gray-400 font-light block md:hidden">↓</div>
-                                <div class="flowchart-step text-center p-4 bg-gray-100 rounded-lg w-full md:w-1/4">
-                                    <div class="text-4xl mb-2">②</div>
-                                    <h4 class="font-bold">Fake Doll Inside</h4>
-                                    <p class="text-sm text-gray-500">A cheap counterfeit is placed inside the real box.</p>
-                                </div>
-                                <div class="text-4xl text-gray-400 font-light hidden md:block">→</div>
-                                 <div class="text-4xl text-gray-400 font-light block md:hidden">↓</div>
-                                <div class="flowchart-step text-center p-4 bg-red-100 border-2 border-red-300 rounded-lg w-full md:w-1/4">
-                                    <div class="text-4xl mb-2">③</div>
-                                    <h4 class="font-bold">User Deceived</h4>
-                                    <p class="text-sm text-gray-500">The user scans the code, it passes, but the doll is a fake.</p>
-                                </div>
-                            </div>
-                            <div class="mt-8 text-center bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                                <p class="font-bold text-gray-800">Key Takeaway:</p>
-                                <p class="text-blue-700">You MUST physically inspect the <span class="font-bold text-blue-800">doll itself</span>. The official verification URL is `fwsy.popmart.com`. A "First-time query" result is a better sign.</p>
-                            </div>
-                        </div>
+                <!-- Example Series Card 5 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+Exciting+Macaron" alt="Labubu Exciting Macaron Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">Exciting Macaron Series</h3>
+                        <p class="text-gray-300 text-base mb-4">A delightful series featuring Labubu adorned with colorful macaron-themed accessories.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-macaron">View Details</a>
+                    </div>
+                </div>
 
-                        <div id="uvlight" class="advanced-content-section bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                             <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">The UV Light (Blacklight) Trick</h3>
-                             <p class="text-center text-gray-500 mb-6">A simple and effective advanced technique, but be aware that reactions vary by series.</p>
-                             <div class="flex justify-center flex-wrap gap-2 mb-6" id="uv-filter-buttons">
-                                 <button class="sub-nav-button active" data-series="have-a-seat">Have A Seat (V2)</button>
-                                 <button class="sub-nav-button" data-series="macaron">Exciting Macaron (V1)</button>
-                                 <button class="sub-nav-button" data-series="general">General Tips</button>
-                             </div>
-                             <div id="uv-info-content" class="p-6 bg-violet-50 rounded-lg min-h-[150px]">
-                             </div>
-                        </div>
+                <!-- Example Series Card 6 -->
+                <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/600x400/2C3848/A7F3D0?text=Labubu+Flower+Elves" alt="Labubu Flower Elves Series" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-teal-300 mb-2">Flower Elves Series</h3>
+                        <p class="text-gray-300 text-base mb-4">Inspired by nature, this series transforms Labubu into charming flower elves.</p>
+                        <a href="#" class="view-series-detail inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" data-target="series-flower-elves">View Details</a>
                     </div>
-                </section>
-
-                <section id="buying" class="content-section">
-                    <div class="text-center mb-8">
-                        <h2 class="text-4xl font-extrabold text-gray-800">Where to Buy Safely?</h2>
-                        <p class="mt-2 text-lg text-gray-600">Choosing a reliable channel is the first line of defense against fakes.</p>
-                    </div>
-                    <div id="buying-nav-container" class="flex justify-center space-x-2 mb-8 flex-wrap gap-2">
-                        <button class="sub-nav-button active" data-target="official">Official & Authorized</button>
-                        <button class="sub-nav-button" data-target="secondary">Secondary Market</button>
-                    </div>
-
-                    <div id="buying-content">
-                        <div id="official" class="buying-content-section active bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold mb-4 text-gray-800">Official Channels: The Safest Bet</h3>
-                            <ul class="list-disc list-inside space-y-3 text-gray-700">
-                                <li><b>Official Websites:</b> Pop Mart's global and regional websites (popmart.com).</li>
-                                <li><b>Official E-commerce Stores:</b> The "POP MART Official Store" on Amazon, TikTok Shop, and AliExpress.</li>
-                                <li><b>Physical Stores:</b> Flagship stores, regular stores, and "Roboshop" vending machines worldwide.</li>
-                            </ul>
-                        </div>
-                        <div id="secondary" class="buying-content-section bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                            <h3 class="text-2xl font-bold mb-4 text-gray-800">Secondary Market Safety Checklist</h3>
-                             <ul class="space-y-4 text-gray-700">
-                                <li class="flex items-start">
-                                    <span class="text-green-600 mr-3 mt-1">✔</span>
-                                    <div><b class="text-gray-800">Check Seller Ratings:</b> Prioritize sellers with high scores and many positive reviews. Read comments with photos.</div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-600 mr-3 mt-1">✔</span>
-                                    <div><b class="text-gray-800">Use Protected Payments:</b> Strongly recommend using payment methods with buyer protection (like PayPal Goods & Services).</div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-600 mr-3 mt-1">✔</span>
-                                    <div><b class="text-gray-800">Ask for Extra Proof:</b> Ask the seller for a photo of the item with a piece of paper showing your username.</div>
-                                </li>
-                                 <li class="flex items-start">
-                                    <span class="text-red-600 mr-3 mt-1">✖</span>
-                                    <div><b class="text-gray-800">Beware of Low Prices:</b> If the price is significantly below market value, it is very likely a fake.</div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-red-600 mr-3 mt-1">✖</span>
-                                    <div><b class="text-gray-800">Beware of "1:1" Descriptions:</b> On AliExpress, this usually means it is a replica.</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+                </div>
             </div>
-        </main>
-        
-        <footer class="text-center py-6 mt-10 border-t border-violet-200">
-            <p class="text-gray-500">Labubu Check &copy; 2025. For reference and educational purposes only.</p>
-        </footer>
-    </div>
+        </section>
+
+        <!-- Labubu Series Detail Pages (Initially hidden) -->
+
+        <!-- The Monsters Series Detail -->
+        <section id="series-monsters" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">The Monsters Series Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Monsters series is the foundational collection that first introduced the beloved Labubu character and its whimsical companions to the world. This series is characterized by its playful and mischievous monster designs, each with unique features and expressions. It captures the essence of Kasing Lung's artistic vision, combining cute aesthetics with a touch of eccentricity. Collectors often start their journey with this iconic series due to its classic appeal and the variety of charming figures it offers. The designs typically feature Labubu in various monster forms, often with its signature toothy grin and expressive eyes, alongside other characters like Zimomo, Spooky, and Pato.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- Sports Series Detail -->
+        <section id="series-sports" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Sports Series Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Sports series showcases Labubu and friends in various athletic endeavors, bringing a dynamic and energetic flair to the collectible line. This series features characters dressed in sports attire, equipped with relevant gear, and often posed in action-oriented stances. From basketball to swimming, and even lesser-known sports, the series captures the spirit of competition and teamwork. It's a popular choice for collectors who appreciate an active theme or are sports enthusiasts themselves. The figures often incorporate clever details related to their sport, making them unique additions to any collection.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- Zimomo Crossover Series Detail -->
+        <section id="series-zimomo" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Zimomo Crossover Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Zimomo Crossover series is a special collaboration that merges Labubu with another iconic character from Kasing Lung's creative universe: Zimomo. This series explores the playful interaction and stylistic blend between these two distinct figures. Collectors can expect to see Labubu adorned with elements or characteristics of Zimomo, or vice versa, creating unique and highly sought-after designs. It's a testament to the versatility of Labubu's design and the expansive world Kasing Lung has built, offering fans a fresh perspective on their favorite characters. These crossover figures often represent significant releases within the Labubu collection.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- The Farmer Series Detail -->
+        <section id="series-farmer" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">The Farmer Series Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Farmer series invites Labubu into a charming rustic setting, portraying the mischievous character and its friends as various farm animals and workers. This collection embodies a quaint and heartwarming theme, with figures dressed in overalls, holding farming tools, or resembling barnyard creatures. The designs often feature earthy tones and wholesome aesthetics, offering a delightful contrast to some of Labubu's more whimsical or urban themes. It's a series that appeals to collectors looking for figures with a pastoral feel and a touch of everyday charm, showcasing Labubu's adaptability to different conceptual roles.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- Exciting Macaron Series Detail -->
+        <section id="series-macaron" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Exciting Macaron Series Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Exciting Macaron series is a truly delightful collection that infuses Labubu with the vibrant and sweet aesthetics of macarons. Each figure in this series is adorned with colorful, dessert-inspired accessories and features, often mimicking the delightful pastel hues and intricate textures of the popular French confectionery. This series is known for its cheerful and eye-catching designs, making it a favorite among collectors who appreciate cute and vibrant themes. The characters might be seen holding macarons, wearing macaron-shaped hats, or simply embodying the sweet charm of these treats, adding a delicious touch to any collection.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- Flower Elves Series Detail -->
+        <section id="series-flower-elves" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Flower Elves Series Details</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">The Flower Elves series transports Labubu and its companions into an enchanting natural world, transforming them into charming flower-inspired elves. This collection celebrates the beauty of flora, with each figure intricately designed to incorporate elements of various flowers and plants. From delicate petals to leafy adornments, the designs are whimsical and evoke a sense of fantasy and magic. This series appeals to collectors who appreciate nature-themed aesthetics and imaginative character transformations. The figures often feature soft color palettes and elegant details, making them a beautiful and serene addition to any Labubu display.</p>
+            <button class="back-to-series-list mt-8 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">Back to Series List</button>
+        </section>
+
+        <!-- Where to buy Section (Initially hidden) -->
+        <section id="where-to-buy" class="content-section hidden bg-gray-800 p-6 md:p-10 rounded-xl shadow-2xl transition-all duration-500 ease-in-out">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-center leading-tight">Where to buy Labubu</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 text-center max-w-3xl mx-auto">Finding authentic Labubu collectibles can be a thrilling part of the collecting journey. To ensure you're getting genuine products and supporting official channels, consider the following reputable sources:</p>
+
+            <div class="space-y-6 text-lg text-gray-300 max-w-4xl mx-auto">
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-teal-300 mb-3">Official Pop Mart Stores & Websites:</h3>
+                    <p>The safest bet is always to purchase directly from Pop Mart's official channels. This includes their physical retail stores located in various countries and their official online web stores. Official online stores are typically region-specific, so ensure you are on the correct one for your location (e.g., Pop Mart Global, Pop Mart China, Pop Mart SEA).</p>
+                    <p class="mt-2">Always look for secure payment gateways and clear return policies.</p>
+                    <a href="https://global.popmart.com/" target="_blank" class="inline-block mt-4 text-teal-400 hover:underline">Visit Pop Mart Global Official Site</a>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-teal-300 mb-3">Authorized Retailers:</h3>
+                    <p>Many licensed toy stores and collectible shops are authorized to sell Pop Mart products. These retailers often receive their stock directly from Pop Mart or official distributors. Examples include:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2">
+                        <li>Large department stores with toy sections (e.g., in Asia, select malls globally)</li>
+                        <li>Specialty collectible stores (e.g., blind box shops, designer toy stores)</li>
+                        <li>Reputable online hobby shops</li>
+                    </ul>
+                    <p class="mt-2">It's always a good idea to check if a retailer is listed as an official partner on Pop Mart's website, if such a list is available.</p>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-teal-300 mb-3">Reputable Online Marketplaces (with caution):</h3>
+                    <p>While third-party marketplaces can offer a wider selection, exercise caution. Look for sellers with:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2">
+                        <li>High ratings and a long history of positive reviews.</li>
+                        <li>Clear photos of the actual product (not stock photos).</li>
+                        <li>Detailed descriptions including box condition, and authentication features.</li>
+                        <li>Fair pricing that isn't suspiciously low.</li>
+                    </ul>
+                    <p class="mt-2">Platforms like eBay, Etsy, or local equivalents can be good if you vet sellers thoroughly. Avoid unverified sellers on social media or unknown websites.</p>
+                </div>
+
+                <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-teal-300 mb-3">Collector Communities and Forums:</h3>
+                    <p>Joining online collector communities (e.g., on Reddit, Facebook groups, specialized forums) can connect you with trusted sellers and facilitate trades. These communities often have strict rules against scams and members can vouch for each other's authenticity. Always ensure transactions are done through secure methods.</p>
+                </div>
+
+                <p class="mt-8 text-center text-xl font-semibold text-teal-400">Remember: If a deal seems too good to be true, it probably is. Prioritize authenticity over price to protect your collection.</p>
+            </div>
+        </section>
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Main Navigation
-            const mainNavButtons = document.querySelectorAll('#main-nav .nav-button');
-            const mainContentSections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const viewSeriesDetailButtons = document.querySelectorAll('.view-series-detail');
+            const backToSeriesListButtons = document.querySelectorAll('.back-to-series-list');
 
-            mainNavButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    mainNavButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
+            // Function to show a specific section and hide others
+            function showSection(targetId) {
+                contentSections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.remove('hidden');
+                        section.classList.add('active'); // Add active class for potential future animations
+                    } else {
+                        section.classList.add('hidden');
+                        section.classList.remove('active');
+                    }
+                });
+            }
 
-                    const targetId = button.getAttribute('data-target');
-                    mainContentSections.forEach(section => {
-                        if (section.id === targetId) {
-                            section.classList.add('active');
-                        } else {
-                            section.classList.remove('active');
-                        }
-                    });
+            // Add click event listeners to main navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    const targetId = this.getAttribute('data-target');
+                    showSection(targetId);
+
+                    // Update active styling for nav links
+                    navLinks.forEach(nav => nav.classList.remove('bg-teal-700', 'text-white'));
+                    this.classList.add('bg-teal-700', 'text-white');
                 });
             });
 
-            // Generic Sub-navigation handler
-            function setupSubNav(navContainerId, contentContainerId, contentClass) {
-                const navButtons = document.querySelectorAll(`#${navContainerId} .sub-nav-button`);
-                const contentSections = document.querySelectorAll(`#${contentContainerId} .${contentClass}`);
-                
-                if (navButtons.length === 0) return;
-
-                navButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        navButtons.forEach(btn => btn.classList.remove('active'));
-                        button.classList.add('active');
-
-                        const targetId = button.getAttribute('data-target');
-                        contentSections.forEach(section => {
-                            if (section.id === targetId) {
-                                section.classList.add('active');
-                            } else {
-                                section.classList.remove('active');
-                            }
-                        });
-                    });
+            // Add click event listeners for "View Details" buttons within Labubu Series section
+            viewSeriesDetailButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    showSection(targetId);
                 });
-                 navButtons[0].click();
-            }
+            });
 
-            setupSubNav('auth-nav-container', 'auth-content', 'auth-content-section');
-            setupSubNav('advanced-nav-container', 'advanced-content', 'advanced-content-section');
-            setupSubNav('buying-nav-container', 'buying-content', 'buying-content-section');
-
-            // UV Light Test interactive content
-            const uvFilterButtons = document.querySelectorAll('#uv-filter-buttons .sub-nav-button');
-            const uvInfoContent = document.getElementById('uv-info-content');
-            const uvInfoData = {
-                'have-a-seat': {
-                    title: 'Have A Seat (V2) Series',
-                    content: 'This series has the clearest UV security feature. Under a blacklight, the <b class="text-blue-600">bottom of the right foot</b> of an authentic doll will show a clear silhouette matching the character\'s pose, glowing <b class="text-blue-600">fluorescent blue</b>. The eyes, mouth, and nose may also react.'
-                },
-                'macaron': {
-                    title: 'Exciting Macaron (V1) Series',
-                    content: 'Authentic dolls from this series <b class="text-red-600">do not have</b> a UV mark on the foot. However, some collectors note that the <b class="text-blue-600">teeth</b> will show a clear fluorescent reaction under a blacklight.'
-                },
-                'general': {
-                    title: 'General Tips',
-                    content: 'For many of the plush keychain series, a common trick is to shine the UV light on the <b class="text-blue-600">nose</b>, as the paint used on authentic dolls often glows. Note that UV features on series like "Big Into Energy" (V3) are inconsistent and should not be the only basis for authentication.'
-                }
-            };
-            
-            function updateUvContent(series) {
-                 const data = uvInfoData[series];
-                 if (data) {
-                    uvInfoContent.innerHTML = `<h4 class="font-bold text-lg mb-2 text-gray-800">${data.title}</h4><p class="text-gray-700">${data.content}</p>`;
-                 }
-            }
-            
-            if (uvFilterButtons.length > 0) {
-                uvFilterButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        uvFilterButtons.forEach(btn => btn.classList.remove('active'));
-                        button.classList.add('active');
-                        const series = button.getAttribute('data-series');
-                        updateUvContent(series);
-                    });
+            // Add click event listeners for "Back to Series List" buttons on detail pages
+            backToSeriesListButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    showSection('labubu-series');
                 });
-                updateUvContent(uvFilterButtons[0].getAttribute('data-series'));
+            });
+
+
+            // Set initial active state for "Labubu Authentication" link and show its section
+            const initialLink = document.querySelector('.nav-link[data-target="labubu-authentication"]');
+            if (initialLink) {
+                initialLink.classList.add('bg-teal-700', 'text-white');
+                showSection('labubu-authentication');
             }
         });
     </script>
-
 </body>
 </html>
